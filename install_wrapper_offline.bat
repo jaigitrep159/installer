@@ -1,7 +1,7 @@
 :: Wrapper: Offline Installer
 :: Author: octanuary#6596 (narutofan420)
 :: License: MIT
-title Wrapper: Offline Installer [Initializing...]
+title Wrapper: Offline Installer and Updater [Initializing...]
 
 ::::::::::::::::::::
 :: Initialization ::
@@ -45,7 +45,7 @@ popd
 ::::::::::::::::::::::::
 
 if !GIT_DETECTED!==n (
-	title Wrapper: Offline Installer [Installing Git...]
+	title Wrapper: Offline Installer and Updater [Installing Git...]
 	echo:
 	echo Installing Git...
 	echo:
@@ -104,15 +104,57 @@ if !ADMINREQUIRED!==y (
 :: Post-Initialization ::
 :::::::::::::::::::::::::
 
-title Wrapper: Offline Installer
+if exist "%tmp%\WOinstDISCyes.txt" (
+	goto standard
+) else (
+	goto disclaimer
+)
+
+title Wrapper: Offline Installer and Updater
 :cls
 cls
 
+:disclaimer
+echo Wrapper: Offline is a project to preserve the original GoAnimate flash-based themes.
+echo We believe they should be archived for others to use and learn about in the future.
+echo All business themes have been removed, please use Vyond Studio if you wish to get those.
+echo This is still unlawful use of copyrighted material, but ^(in our opinion^) morally justifiable use.
 echo:
-echo Wrapper: Offline Installer
+echo We are not affiliated in any form with Vyond or GoAnimate Inc. We generate no profit from this.
+echo We do not wish to promote piracy, and we avoid distributing content that is still in use by GoAnimate Inc.
+echo We have tried to reduce any harm we could do to GoAnimate Inc while making this project.
+echo:
+echo Excluding Adobe Flash and GoAnimate Inc's assets, Wrapper: Offline is free/libre software.
+echo You are free to redistribute and/or modify it under the terms of the MIT ^(aka Expat^) license,
+echo except for some dependencies which have different licenses with slightly different rights.
+echo Read the LICENSE file in Offline's base folder and the licenses in utilities/sourcecode for more info.
+echo:
+echo By continuing to use Wrapper: Offline, you acknowledge the nature of this project, and your right to use it.
+echo If you object to any of this, feel free to close the Wrapper: Offline installer now.
+echo You will be allowed to accept 15 seconds after this message has appeared.
+echo: 
+PING -n 16 127.0.0.1>nul
+echo If you still want to install and use Wrapper: Offline, press Y. If you no longer want to, press N.
+:disclaimacceptretry
+set /p ACCEPTCHOICE= Response:
+echo:
+if not '!acceptchoice!'=='' set acceptchoice=%acceptchoice:~0,1%
+if /i "!acceptchoice!"=="y" goto disclaimaccepted
+if /i "!acceptchoice!"=="n" exit
+goto disclaimacceptretry
+:disclaimaccepted
+echo: 
+echo Sorry for all the legalese, let's get back on track.
+echo This file exists to signal that the disclaimer on the installer/updater was acknowledged.>%tmp%\WOinstDISCyes.txt
+PING -n 4 127.0.0.1>nul
+echo:
+
+:standard
+cls
+echo Wrapper: Offline Installer and Updater
 echo A project from VisualPlugin adapted by Benson and the Wrapper: Offline Team
 echo:
-echo Enter 1 to install Wrapper: Offline
+echo Enter 1 to install ^(or update^) Wrapper: Offline
 echo Enter 0 to close the installer
 :wrapperidle
 echo:
@@ -142,11 +184,47 @@ echo Time to choose. && goto wrapperidle
 
 :download
 cls
+title Wrapper: Offline Installer and Updater [Cloning repository...]
 pushd "%~dp0..\"
-echo Cloning repository from GitHub...
+echo Cloning the latest version of the repository from GitHub...
+echo:
 git clone https://github.com/Wrapper-Offline/Wrapper-Offline-Public.git
 cls
-echo Wrapper: Offline has been installed^^! Feel free to move it wherever you want.
+start "" "%~dp0..\Wrapper-Offline-Public"
+echo The repository has been cloned, and the directory has been opened.
+echo:
+echo The next step is to run "start_wrapper.bat" as admin to install any
+echo missing dependencies.
+echo:
+echo There is no way to program this so that it automatically opens
+echo it as admin, so this is the only way to do it.
+echo:
+echo Once you've run "start_wrapper.bat" as admin, you may
+echo continue in this window. An additional question in
+echo the setup will be asked.
+echo:
+pause
+if exist "%~dp0..\Wrapper-Offline-Public\wrapper\node_modules\" (
+	goto installed
+) else (
+	echo Hmm, sorry. We couldn't detect the "node_modules" folder in the
+	echo "wrapper" folder. This folder means that all the necessary
+	echo things required for the Node.js side of Wrapper: Offline,
+	echo which is the brain of it all, is intact. In this case, it's
+	echo not, so that means you haven't done the next step of the
+	echo installation yet.
+	echo:
+	echo Make sure you've installed it by running "start_wrapper.bat"
+	echo as admin, and when finished, you may continue in this window.
+	echo:
+	echo Once it detects "node_modules" existing after you continue in
+	echo this window, it will continue with the next step, which is
+	echo optional but still requires an answer.
+	echo:
+	pause
+)
+:installed
+echo Wrapper: Offline has been installed ^(or updated^)^^! Feel free to move it wherever you want.
 echo:
 echo Would you like to add a shortcut on your desktop?
 echo:
