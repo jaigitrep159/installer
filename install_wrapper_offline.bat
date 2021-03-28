@@ -147,6 +147,19 @@ echo Cloning repository from GitHub...
 git clone https://github.com/Wrapper-Offline/Wrapper-Offline-Public.git
 cls
 echo Wrapper: Offline has been installed^^! Feel free to move it wherever you want.
+echo:
+echo Would you like to add a shortcut on your desktop?
+echo:
+echo Press 1 if you'd like to.
+echo Otherwise, hit enter.
+echo:
+set /p SHORTCUT= Option: 
+if "!shortcut!"=="1" (
+	pushd "Wrapper-Offline-Public"
+	copy "Wrapper Offline.lnk" "%Public%\Desktop"
+	echo Shortcut created on Desktop.
+	echo:
+)
 start "" "%~dp0..\Wrapper-Offline-Public"
 pause & exit
 
