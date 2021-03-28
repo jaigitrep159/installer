@@ -190,8 +190,7 @@ echo Cloning the latest version of the repository from GitHub...
 echo:
 call git clone https://github.com/Wrapper-Offline/Wrapper-Offline-Public.git
 cls
-start "" "%~dp0..\Wrapper-Offline-Public"
-echo The repository has been cloned, and the directory has been opened.
+echo The repository has been cloned.
 echo:
 echo The next step is to run "start_wrapper.bat" as admin to install any
 echo missing dependencies. This will only be required once.
@@ -203,12 +202,14 @@ set /p RANSTARTWRAPPER= Option:
 if "!ranstartwrapper!"=="1" (
 	goto installed
 ) else (
-	echo There is no way to program this so that it automatically opens
-	echo it as admin, so this is the only way to do it.
+	start "" "%~dp0..\Wrapper-Offline-Public"
+	echo The directory where it cloned to has been opened.
 	echo:
-	echo Once you've run "start_wrapper.bat" as admin, you may
-	echo continue in this window. An additional question in
-	echo the setup will be asked.
+	echo There is no way to program this so that it automatically opens
+	echo "start_wrapper.bat" as admin, so this is the only way to do it.
+	echo:
+	echo Once you've run "start_wrapper.bat" as admin, you may continue
+	echo in this window. An additional question in the setup will be asked.
 	echo:
 	pause
 	goto installed
