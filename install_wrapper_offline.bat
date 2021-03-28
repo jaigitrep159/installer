@@ -195,7 +195,7 @@ echo:
 echo The next step is to run "start_wrapper.bat" as admin to install any
 echo missing dependencies. This will only be required once.
 echo:
-echo If you've already done this step, press 1
+echo If you've already done this step and you're here to update, press 1
 echo Otherwise, press Enter
 echo:
 set /p RANSTARTWRAPPER= Option: 
