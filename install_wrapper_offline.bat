@@ -23,7 +23,7 @@ pushd "%~dp0"
 :: Dependency Check ::
 ::::::::::::::::::::::
 
-title Wrapper: Offline Installer [Checking for Git...]
+title Wrapper: Offline Installer and Updater [Checking for Git...]
 echo Checking for Git installation...
 
 :: Preload variables
@@ -194,34 +194,24 @@ start "" "%~dp0..\Wrapper-Offline-Public"
 echo The repository has been cloned, and the directory has been opened.
 echo:
 echo The next step is to run "start_wrapper.bat" as admin to install any
-echo missing dependencies.
+echo missing dependencies. This will only be required once.
 echo:
-echo There is no way to program this so that it automatically opens
-echo it as admin, so this is the only way to do it.
+echo If you've already done this step, press 1
+echo Otherwise, press Enter
 echo:
-echo Once you've run "start_wrapper.bat" as admin, you may
-echo continue in this window. An additional question in
-echo the setup will be asked.
-echo:
-pause
-if exist "%~dp0..\Wrapper-Offline-Public\wrapper\node_modules\" (
+set /p RANSTARTWRAPPER= Option: 
+if "!ranstartwrapper!"=="1" (
 	goto installed
 ) else (
-	echo Hmm, sorry. We couldn't detect the "node_modules" folder in the
-	echo "wrapper" folder. This folder means that all the necessary
-	echo things required for the Node.js side of Wrapper: Offline,
-	echo which is the brain of it all, is intact. In this case, it's
-	echo not, so that means you haven't done the next step of the
-	echo installation yet.
+	echo There is no way to program this so that it automatically opens
+	echo it as admin, so this is the only way to do it.
 	echo:
-	echo Make sure you've installed it by running "start_wrapper.bat"
-	echo as admin, and when finished, you may continue in this window.
-	echo:
-	echo Once it detects "node_modules" existing after you continue in
-	echo this window, it will continue with the next step, which is
-	echo optional but still requires an answer.
+	echo Once you've run "start_wrapper.bat" as admin, you may
+	echo continue in this window. An additional question in
+	echo the setup will be asked.
 	echo:
 	pause
+	goto installed
 )
 :installed
 echo Wrapper: Offline has been installed ^(or updated^)^^! Feel free to move it wherever you want.
@@ -235,6 +225,7 @@ set /p SHORTCUT= Option:
 if "!shortcut!"=="1" (
 	pushd "Wrapper-Offline-Public"
 	copy "Wrapper Offline.lnk" "%Public%\Desktop"
+	copy "Wrapper Offline.lnk" "C:\Users\%Username%\Desktop"
 	echo Shortcut created on Desktop.
 	echo:
 )
