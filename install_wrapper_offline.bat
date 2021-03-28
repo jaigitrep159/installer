@@ -80,7 +80,7 @@ if !GIT_DETECTED!==n (
 	echo Proper Git installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes,
 	echo and the W:O installer will continue once it closes.
-	git_installer.exe
+	start "" "git_installer.exe"
 	goto git_installed
 	
 	:git_installed
@@ -188,7 +188,7 @@ title Wrapper: Offline Installer and Updater [Cloning repository...]
 pushd "%~dp0..\"
 echo Cloning the latest version of the repository from GitHub...
 echo:
-git clone https://github.com/Wrapper-Offline/Wrapper-Offline-Public.git
+call git clone https://github.com/Wrapper-Offline/Wrapper-Offline-Public.git
 cls
 start "" "%~dp0..\Wrapper-Offline-Public"
 echo The repository has been cloned, and the directory has been opened.
