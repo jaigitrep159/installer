@@ -224,9 +224,12 @@ echo Otherwise, hit enter.
 echo:
 set /p SHORTCUT= Option: 
 if "!shortcut!"=="1" (
-	pushd "Wrapper-Offline-Public"
-	copy "Wrapper Offline.lnk" "%Public%\Desktop"
-	copy "Wrapper Offline.lnk" "C:\Users\%Username%\Desktop"
+	echo Running Wrapper's included NirCMD...
+	PING -n 4 127.0.0.1>nul
+	echo:
+	pushd "Wrapper-Offline-Public\utilities\nircmd"
+	call nircmd.exe shortcut "..\..\start_wrapper.bat" "%Public%\Desktop" "Wrapper Offline" "" "..\..\wrapper\favicon.ico"
+	copy "%Public%\Desktop\Wrapper Offline.lnk" "C:\Users\%Username%\Desktop"
 	echo Shortcut created on Desktop.
 	echo:
 )
