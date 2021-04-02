@@ -229,6 +229,7 @@ if "!shortcut!"=="1" (
 	echo:
 	pushd "Wrapper-Offline-Public\utilities\nircmd"
 	call nircmd.exe shortcut "..\..\start_wrapper.bat" "%Public%\Desktop" "Wrapper Offline" "" "..\..\wrapper\favicon.ico"
+	popd
 	copy "%Public%\Desktop\Wrapper Offline.lnk" "C:\Users\%Username%\Desktop"
 	echo Shortcut created on Desktop.
 	echo:
