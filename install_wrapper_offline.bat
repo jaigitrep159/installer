@@ -184,25 +184,35 @@ echo Time to choose. && goto wrapperidle
 
 :download
 cls
+if exist "%tmp%\WOpath.txt" (
+	for /f "delims=" %%i in (%tmp%\WOpath.txt) do set WOPATH=%%i
+) else (
+	set WOPATHRAW=%~dp0..
+	echo Would you like to install it to a different path?
+	echo:
+	echo If so, please enter your path here.
+	echo Otherwise, press enter to install to where you downloaded the installer.
+	echo:
+	echo ^(NOTE: You will only be asked this once.^)
+	echo:
+	set /p WOPATHRAW= Path:
+	echo %WOPATHRAW%>%tmp%\WOpath.txt
+	for /f "delims=" %%i in (%tmp%\WOpath.txt) do set WOPATH=%%i
+)
 title Wrapper: Offline Installer and Updater [Cloning repository...]
-pushd "%~dp0..\"
+pushd "%WOPATH%\"
 echo Cloning the latest version of the repository from GitHub...
 echo:
 call git clone https://github.com/Wrapper-Offline/Wrapper-Offline-Public.git
 cls
 echo The repository has been cloned.
 echo:
-echo The next step is to run "start_wrapper.bat" as admin to install any
-echo missing dependencies. This will only be required once.
-echo:
-echo If you've already done this step and you're here to update, press 1
-echo Otherwise, press Enter
-echo:
-set /p RANSTARTWRAPPER= Option: 
-if "!ranstartwrapper!"=="1" (
-	goto installed
-) else (
-	start "" "%~dp0..\Wrapper-Offline-Public"
+if not exist "%tmp%\startwrapperalreadyran.txt" (
+	echo The next step is to run "start_wrapper.bat" as admin to install any
+	echo missing dependencies. This will only be required once.
+	echo:
+	pause
+	start "" "%WOPATH%\Wrapper-Offline-Public"
 	echo The directory where it cloned to has been opened.
 	echo:
 	echo There is no way to program this so that it automatically opens
@@ -212,6 +222,9 @@ if "!ranstartwrapper!"=="1" (
 	echo in this window. An additional question in the setup will be asked.
 	echo:
 	pause
+	echo This .TXT file exists to signal that the user already ran start_wrapper.bat as admin during their first time using this installer/updater.>%tmp%\startwrapperalreadyran.txt
+	goto installed
+) else (
 	goto installed
 )
 :installed
@@ -234,7 +247,7 @@ if "!shortcut!"=="1" (
 	echo Shortcut created on Desktop.
 	echo:
 )
-start "" "%~dp0..\Wrapper-Offline-Public"
+start "" "%WOPATH%\Wrapper-Offline-Public"
 pause & exit
 
 :w_a_t_c_h
