@@ -193,7 +193,7 @@ if exist "%tmp%\WOpath.txt" (
 	echo If so, please enter your path here.
 	echo Otherwise, press enter to install to where you downloaded the installer.
 	echo:
-	echo ^(NOTE: You will only be asked this once.^)
+	echo ^(NOTE: You will only be asked this once. Your path will be permanent.^)
 	echo:
 	set /p WOPATHRAW= Path:
 	echo %WOPATHRAW%>%tmp%\WOpath.txt
@@ -207,6 +207,14 @@ call git clone https://github.com/Wrapper-Offline/Wrapper-Offline-Public.git
 cls
 echo The repository has been cloned.
 echo:
+if not exist "Wrapper-Offline-Public\Wrapper Offline.lnk" (
+	echo Creating quick shortcut in directory where Wrapper was cloned using NirCMD...
+	echo:
+	pushd "Wrapper-Offline-Public\utilities\nircmd"
+	call nircmd shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%\..\.." "Wrapper Offline" "" "%CD%\..\..\wrapper\favicon.ico" "" "" "%CD%\"
+	echo Shortcut created.
+	echo:
+)
 if not exist "%tmp%\startwrapperalreadyran.txt" (
 	echo The next step is to run "start_wrapper.bat" as admin to install any
 	echo missing dependencies. This will only be required once.
