@@ -210,7 +210,9 @@ echo:
 if not exist "Wrapper-Offline-Public\Wrapper Offline.lnk" (
 	echo Creating quick shortcut in directory where Wrapper was cloned using NirCMD...
 	echo:
-	call Wrapper-Offline-Public\utilities\nircmd\nircmd.exe shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico" "" "" "%CD%\"
+	pushd Wrapper-Offline-Public
+	call utilities\nircmd\nircmd.exe shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico" "" "" "%CD%\"
+	popd
 	echo Shortcut created.
 	echo:
 )
@@ -247,8 +249,10 @@ if "!shortcut!"=="1" (
 	echo Running Wrapper's included NirCMD...
 	PING -n 4 127.0.0.1>nul
 	echo:
-	call Wrapper-Offline-Public\utilities\nircmd\nircmd.exe shortcut "%CD%\start_wrapper.bat" "~$folder.desktop$" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico"
-	copy "C:\Users\%Username%\Desktop\Wrapper Offline.lnk" "%Public%\Desktop"
+	pushd Wrapper-Offline-Public
+	call utilities\nircmd\nircmd.exe shortcut "%CD%\start_wrapper.bat" "~$folder.desktop$" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico"
+	popd
+	copy "%USERPROFILE%\Desktop\Wrapper Offline.lnk" "%Public%\Desktop"
 	echo Shortcut created on Desktop.
 	echo:
 )
