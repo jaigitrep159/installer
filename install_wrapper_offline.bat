@@ -210,8 +210,7 @@ echo:
 if not exist "Wrapper-Offline-Public\Wrapper Offline.lnk" (
 	echo Creating quick shortcut in directory where Wrapper was cloned using NirCMD...
 	echo:
-	pushd "Wrapper-Offline-Public\utilities\nircmd"
-	call nircmd shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%\..\.." "Wrapper Offline" "" "%CD%\..\..\wrapper\favicon.ico" "" "" "%CD%\"
+	call Wrapper-Offline-Public\utilities\nircmd\nircmd.exe shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico" "" "" "%CD%\"
 	echo Shortcut created.
 	echo:
 )
