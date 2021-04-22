@@ -247,9 +247,7 @@ if "!shortcut!"=="1" (
 	echo Running Wrapper's included NirCMD...
 	PING -n 4 127.0.0.1>nul
 	echo:
-	pushd "Wrapper-Offline-Public\utilities\nircmd"
-	call nircmd shortcut "%CD%\..\..\start_wrapper.bat" "~$folder.desktop$" "Wrapper Offline" "" "%CD%\..\..\wrapper\favicon.ico"
-	popd
+	call Wrapper-Offline-Public\utilities\nircmd\nircmd.exe shortcut "%CD%\start_wrapper.bat" "~$folder.desktop$" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico"
 	copy "C:\Users\%Username%\Desktop\Wrapper Offline.lnk" "%Public%\Desktop"
 	echo Shortcut created on Desktop.
 	echo:
