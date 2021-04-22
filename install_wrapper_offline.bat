@@ -203,7 +203,7 @@ title Wrapper: Offline Installer and Updater [Cloning repository...]
 pushd "%WOPATH%\"
 echo Cloning the latest version of the repository from GitHub...
 echo:
-call git clone https://github.com/Wrapper-Offline/Wrapper-Offline-Public.git
+call git clone https://github.com/Wrapper-Offline/wrapper-offline.git
 cls
 echo The repository has been cloned.
 echo:
