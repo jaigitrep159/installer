@@ -207,10 +207,10 @@ call git clone https://github.com/Wrapper-Offline/wrapper-offline.git
 cls
 echo The repository has been cloned.
 echo:
-if not exist "wrapper-offline\Wrapper Offline.lnk" (
+if not exist "Wrapper-Offline-Public\Wrapper Offline.lnk" (
 	echo Creating quick shortcut in directory where Wrapper was cloned using NirCMD...
 	echo:
-	pushd wrapper-offline
+	pushd Wrapper-Offline-Public
 	call utilities\nircmd\nircmd.exe shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico" "" "" "%CD%\"
 	popd
 	echo Shortcut created.
@@ -221,7 +221,7 @@ if not exist "%tmp%\startwrapperalreadyran.txt" (
 	echo missing dependencies. This will only be required once.
 	echo:
 	pause
-	start "" "%WOPATH%\wrapper-offline"
+	start "" "%WOPATH%\Wrapper-Offline-Public"
 	echo The directory where it cloned to has been opened.
 	echo:
 	echo There is no way to program this so that it automatically opens
@@ -249,14 +249,14 @@ if "!shortcut!"=="1" (
 	echo Running Wrapper's included NirCMD...
 	PING -n 4 127.0.0.1>nul
 	echo:
-	pushd wrapper-offline
+	pushd Wrapper-Offline-Public
 	call utilities\nircmd\nircmd.exe shortcut "%CD%\start_wrapper.bat" "~$folder.desktop$" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico"
 	popd
 	copy "%USERPROFILE%\Desktop\Wrapper Offline.lnk" "%Public%\Desktop"
 	echo Shortcut created on Desktop.
 	echo:
 )
-start "" "%WOPATH%\wrapper-offline"
+start "" "%WOPATH%\Wrapper-Offline-Public"
 pause & exit
 
 :w_a_t_c_h
