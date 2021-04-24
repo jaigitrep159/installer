@@ -154,7 +154,7 @@ cls
 echo Wrapper: Offline Installer and Updater
 echo A project from VisualPlugin adapted by Benson and the Wrapper: Offline Team
 echo:
-echo Enter 1 to install ^(or update^) Wrapper: Offline
+echo Enter 1 to install Wrapper: Offline
 echo Enter 0 to close the installer
 :wrapperidle
 echo:
@@ -184,23 +184,8 @@ echo Time to choose. && goto wrapperidle
 
 :download
 cls
-if exist "%tmp%\WOpath.txt" (
-	for /f "delims=" %%i in (%tmp%\WOpath.txt) do set WOPATH=%%i
-) else (
-	set WOPATHRAW=%~dp0..
-	echo Would you like to install it to a different path?
-	echo:
-	echo If so, please enter your path here.
-	echo Otherwise, press enter to install to where you downloaded the installer.
-	echo:
-	echo ^(NOTE: You will only be asked this once. Your path will be permanent.^)
-	echo:
-	set /p WOPATHRAW= Path:
-	echo %WOPATHRAW%>%tmp%\WOpath.txt
-	for /f "delims=" %%i in (%tmp%\WOpath.txt) do set WOPATH=%%i
-)
 title Wrapper: Offline Installer and Updater [Cloning repository...]
-pushd "%WOPATH%\"
+pushd "%~dp0..\"
 echo Cloning the latest version of the repository from GitHub...
 echo:
 call git clone https://github.com/Wrapper-Offline/wrapper-offline.git
@@ -221,7 +206,7 @@ if not exist "%tmp%\startwrapperalreadyran.txt" (
 	echo missing dependencies. This will only be required once.
 	echo:
 	pause
-	start "" "%WOPATH%\Wrapper-Offline-Public"
+	start "" "%~dp0..\Wrapper-Offline-Public"
 	echo The directory where it cloned to has been opened.
 	echo:
 	echo There is no way to program this so that it automatically opens
@@ -256,7 +241,7 @@ if "!shortcut!"=="1" (
 	echo Shortcut created on Desktop.
 	echo:
 )
-start "" "%WOPATH%\Wrapper-Offline-Public"
+start "" "%~dp0..\Wrapper-Offline-Public"
 pause & exit
 
 :w_a_t_c_h
