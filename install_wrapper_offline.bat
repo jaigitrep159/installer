@@ -190,6 +190,53 @@ pushd "%~dp0..\"
 echo Cloning the latest version of the repository from GitHub...
 echo:
 call git clone https://github.com/Wrapper-Offline/wrapper-offline.git
+:: I'm doing this to get around the .gitignore problem but this is only for first-time users
+echo :: Wrapper: Offline Config>> wrapper-offline\utilities\config.bat
+echo :: This file is modified by settings.bat. It is not organized, but comments for each setting have been added.>> wrapper-offline\utilities\config.bat
+echo :: You should be using settings.bat, and not touching this. Offline relies on this file remaining consistent, and it's easy to mess that up.>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Opens this file in Notepad when run>> wrapper-offline\utilities\config.bat
+echo setlocal>> wrapper-offline\utilities\config.bat
+echo if "%%SUBSCRIPT%%"=="" ( start notepad.exe "%%CD%%\%%~nx0" ^& exit )>> wrapper-offline\utilities\config.bat
+echo endlocal>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Shows exactly Offline is doing, and never clears the screen. Useful for development and troubleshooting. Default: n>> wrapper-offline\utilities\config.bat
+echo set VERBOSEWRAPPER=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Won't check for dependencies (flash, node, etc) and goes straight to launching. Useful for speedy launching post-install. Default: n>> wrapper-offline\utilities\config.bat
+echo set SKIPCHECKDEPENDS=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Won't install dependencies, regardless of check results. Overridden by SKIPCHECKDEPENDS. Mostly useless, why did I add this again? Default: n>> wrapper-offline\utilities\config.bat
+echo set SKIPDEPENDINSTALL=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Opens Offline in an included copy of ungoogled-chromium. Allows continued use of Flash as modern browsers disable it. Default: y>> wrapper-offline\utilities\config.bat
+echo set INCLUDEDCHROMIUM=y>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Opens INCLUDEDCHROMIUM in headless mode. Looks pretty nice. Overrides CUSTOMBROWSER and BROWSER_TYPE. Default: y>> wrapper-offline\utilities\config.bat
+echo set APPCHROMIUM=y>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Opens Offline in a browser of the user's choice. Needs to be a path to a browser executable in quotes. Default: n>> wrapper-offline\utilities\config.bat
+echo set CUSTOMBROWSER=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Lets the launcher know what browser framework is being used. Mostly used by the Flash installer. Accepts "chrome", "firefox", and "n". Default: n>> wrapper-offline\utilities\config.bat
+echo set BROWSER_TYPE=chrome>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Runs through all of the scripts code, while never launching or installing anything. Useful for development. Default: n>> wrapper-offline\utilities\config.bat
+echo set DRYRUN=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Makes it so it uses the Cepstral website instead of VFProxy. Default: n>> wrapper-offline\utilities\config.bat
+echo set CEPSTRAL=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Opens Offline in an included copy of Basilisk, sourced from BlueMaxima's Flashpoint.>> wrapper-offline\utilities\config.bat
+echo :: Allows continued use of Flash as modern browsers disable it. Default: n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo set INCLUDEDBASILISK=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: n>> wrapper-offline\utilities\config.bat
+echo set DEVMODE=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> wrapper-offline\utilities\config.bat
+echo set PORT=4343>> wrapper-offline\utilities\config.bat
 cls
 echo The repository has been cloned.
 echo:
