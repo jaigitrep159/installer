@@ -256,18 +256,17 @@ call wrapper-offline\utilities\7za.exe a "wrapper-offline\server\store\3a981f5cb
 del /q /s wrapper-offline\utilities\import_these
 md wrapper-offline\utilities\import_these
 copy "wrapper-offline\server\store\3a981f5cb2739137\import\theme.xml" "wrapper-offline\wrapper\_THEMES\import.xml" /y
+echo Creating quick shortcut in directory where Wrapper was cloned using NirCMD...
+del "wrapper-offline\Wrapper Offline.lnk"
+echo:
+pushd wrapper-offline
+call utilities\nircmd\nircmd.exe shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico" "" "" "%CD%\"
+popd
+echo Shortcut created.
+echo:
 cls
 echo The repository has been cloned.
 echo:
-if not exist "wrapper-offline\Wrapper Offline.lnk" (
-	echo Creating quick shortcut in directory where Wrapper was cloned using NirCMD...
-	echo:
-	pushd wrapper-offline
-	call utilities\nircmd\nircmd.exe shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico" "" "" "%CD%\"
-	popd
-	echo Shortcut created.
-	echo:
-)
 if not exist "%tmp%\startwrapperalreadyran.txt" (
 	echo The next step is to run "start_wrapper.bat" as admin to install any
 	echo missing dependencies. This will only be required once.
@@ -304,7 +303,11 @@ if "!shortcut!"=="1" (
 	pushd wrapper-offline
 	call utilities\nircmd\nircmd.exe shortcut "%CD%\start_wrapper.bat" "~$folder.desktop$" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico"
 	popd
-	copy "%USERPROFILE%\Desktop\Wrapper Offline.lnk" "%Public%\Desktop"
+	if exist "%ONEDRIVE%\Desktop" (
+		copy "%ONEDRIVE%\Desktop\Wrapper Offline.lnk" "%Public%\Desktop"
+	) else (
+		copy "%USERPROFILE%\Desktop\Wrapper Offline.lnk" "%Public%\Desktop"
+	)
 	echo Shortcut created on Desktop.
 	echo:
 )
