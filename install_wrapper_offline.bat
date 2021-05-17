@@ -191,6 +191,8 @@ echo Cloning the latest version of the repository from GitHub...
 echo:
 call git clone https://github.com/Wrapper-Offline/wrapper-offline.git
 :: I'm doing this to get around the .gitignore problem but this is only for first-time users
+echo Resetting config.bat...
+del wrapper-offline\utilities\config.bat
 echo :: Wrapper: Offline Config>> wrapper-offline\utilities\config.bat
 echo :: This file is modified by settings.bat. It is not organized, but comments for each setting have been added.>> wrapper-offline\utilities\config.bat
 echo :: You should be using settings.bat, and not touching this. Offline relies on this file remaining consistent, and it's easy to mess that up.>> wrapper-offline\utilities\config.bat
@@ -237,6 +239,23 @@ echo set DEVMODE=n>> wrapper-offline\utilities\config.bat
 echo:>> wrapper-offline\utilities\config.bat
 echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> wrapper-offline\utilities\config.bat
 echo set PORT=4343>> wrapper-offline\utilities\config.bat
+echo Resetting imported assets...
+pushd wrapper-offline\server\store\3a981f5cb2739137
+rd /q /s import
+md import
+pushd import
+echo ^<?xml version="1.0" encoding="utf-8"?^> >>theme.xml
+echo ^<theme id="import" name="Imported Assets" cc_theme_id="import"^> >>theme.xml
+echo 	^<char id="327068788" name="the benson apparition" cc_theme_id="family" thumbnail_url="char-default.png" copyable="Y"^> >>theme.xml
+echo 	^<tags^>family,every,copy,of,wrapper,offline,is,_free,software,but,is,also,_cat:personalized^</tags^> >>theme.xml
+echo 	^</char^> >>theme.xml
+echo:>>theme.xml
+echo ^</theme^> >>theme.xml
+popd
+call wrapper-offline\utilities\7za.exe a "wrapper-offline\server\store\3a981f5cb2739137\import\import.zip" "wrapper-offline\server\store\3a981f5cb2739137\import\theme.xml" >nul
+del /q /s wrapper-offline\utilities\import_these
+md wrapper-offline\utilities\import_these
+copy "wrapper-offline\server\store\3a981f5cb2739137\import\theme.xml" "wrapper-offline\wrapper\_THEMES\import.xml" /y
 cls
 echo The repository has been cloned.
 echo:
