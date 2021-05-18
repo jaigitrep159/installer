@@ -2,7 +2,7 @@
 :: Author: octanuary#6596 (narutofan420)
 :: i mean benson made most of it since a lot of this was taken from start_wrapper.bat
 :: License: MIT
-title Wrapper: Offline Installer and Updater [Initializing...]
+title Wrapper: Offline Installer [Initializing...]
 
 ::::::::::::::::::::
 :: Initialization ::
@@ -24,7 +24,7 @@ pushd "%~dp0"
 :: Dependency Check ::
 ::::::::::::::::::::::
 
-title Wrapper: Offline Installer and Updater [Checking for Git...]
+title Wrapper: Offline Installer [Checking for Git...]
 echo Checking for Git installation...
 
 :: Preload variables
@@ -46,7 +46,7 @@ popd
 ::::::::::::::::::::::::
 
 if !GIT_DETECTED!==n (
-	title Wrapper: Offline Installer and Updater [Installing Git...]
+	title Wrapper: Offline Installer [Installing Git...]
 	echo:
 	echo Installing Git...
 	echo:
@@ -152,7 +152,7 @@ echo:
 
 :standard
 cls
-echo Wrapper: Offline Installer and Updater
+echo Wrapper: Offline Installer
 echo A project from VisualPlugin adapted by Benson and the Wrapper: Offline Team
 echo:
 echo Enter 1 to install Wrapper: Offline
@@ -185,7 +185,7 @@ echo Time to choose. && goto wrapperidle
 
 :download
 cls
-title Wrapper: Offline Installer and Updater [Cloning repository...]
+title Wrapper: Offline Installer [Cloning repository...]
 pushd "%~dp0..\"
 echo Cloning the latest version of the repository from GitHub...
 echo:
@@ -239,6 +239,10 @@ echo set DEVMODE=n>> wrapper-offline\utilities\config.bat
 echo:>> wrapper-offline\utilities\config.bat
 echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> wrapper-offline\utilities\config.bat
 echo set PORT=4343>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
+echo :: Enables configure_wrapper.bat. Useful for investigating things like problems with Node.js or http-server. Default: n>> wrapper-offline\utilities\config.bat
+echo set CONFIGURE=n>> wrapper-offline\utilities\config.bat
+echo:>> wrapper-offline\utilities\config.bat
 echo Resetting imported assets...
 pushd wrapper-offline\server\store\3a981f5cb2739137
 rd /q /s import
@@ -267,28 +271,22 @@ echo:
 cls
 echo The repository has been cloned.
 echo:
-if not exist "%tmp%\startwrapperalreadyran.txt" (
-	echo The next step is to run "start_wrapper.bat" as admin to install any
-	echo missing dependencies. This will only be required once.
-	echo:
-	pause
-	start "" "%dp0..\wrapper-offline"
-	echo The directory where it cloned to has been opened.
-	echo:
-	echo There is no way to program this so that it automatically opens
-	echo "start_wrapper.bat" as admin, so this is the only way to do it.
-	echo:
-	echo Once you've run "start_wrapper.bat" as admin, you may continue
-	echo in this window. An additional question in the setup will be asked.
-	echo:
-	pause
-	echo This .TXT file exists to signal that the user already ran start_wrapper.bat as admin during their first time using this installer/updater.>%tmp%\startwrapperalreadyran.txt
-	goto installed
-) else (
-	goto installed
-)
-:installed
-echo Wrapper: Offline has been installed ^(or updated^)^^! Feel free to move it wherever you want.
+echo The next step is to run "start_wrapper.bat" as admin to install any
+echo missing dependencies. This will only be required once.
+echo:
+pause
+start "" "%dp0..\wrapper-offline"
+echo The directory where it cloned to has been opened.
+echo:
+echo There is no way to program this so that it automatically opens
+echo "start_wrapper.bat" as admin, so this is the only way to do it.
+echo:
+echo Once you've run "start_wrapper.bat" as admin, you may continue
+echo in this window. An additional question in the setup will be asked.
+echo:
+pause
+echo This .TXT file exists to signal that the user already ran start_wrapper.bat as admin during their first time using this installer/updater.>%tmp%\startwrapperalreadyran.txt
+echo Wrapper: Offline has been installed^^! Feel free to move it wherever you want.
 echo:
 echo Would you like to add a shortcut on your desktop?
 echo:
