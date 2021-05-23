@@ -250,7 +250,7 @@ echo Moving "disclaimer accepted" text file from temporary system directory to u
 copy "%tmp%\WOdisclaimer.txt" "wrapper-offline\utilities\checks\disclaimer.txt" /y
 del "%tmp%\WOdisclaimer.txt"
 echo Creating quick shortcut in directory where Wrapper was cloned using NirCMD...
-del "wrapper-offline\Wrapper Offline.lnk"
+if exist "wrapper-offline\Wrapper Offline.lnk" ( del "wrapper-offline\Wrapper Offline.lnk" )
 echo:
 pushd wrapper-offline
 call utilities\nircmd\nircmd.exe shortcut '%windir%\System32\cmd.exe /c START "" "start_wrapper.bat"' "%CD%" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico" "" "" "%CD%\"
