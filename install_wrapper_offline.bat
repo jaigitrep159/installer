@@ -60,14 +60,17 @@ if !GIT_DETECTED!==n (
 		echo Wrapper: Offline needs to install Git and launch the launcher as admin later.
 		echo To do this, the installer must be started with Admin rights.
 		echo:
-		echo Close this window and re-open the installer as an Admin.
-		echo ^(right-click install_wrapper_offline.bat and click "Run as Administrator"^)
+		echo Press any key to restart this window and accept any admin prompts that pop up.
 		pause
-		exit
+		echo Set UAC = CreateObject^("Shell.Application"^)>> %temp%\requestAdmin.vbs
+		echo UAC.ShellExecute "%~s0", "", "", "runas", 1>> %temp%\requestAdmin.vbs
+		start %temp%\requestAdmin.vbs
+		exit /B
 		)
 	)
 )
 :postadmincheck
+if exist "%temp%\requestAdmin.vbs" ( del "%temp%\requestAdmin.vbs" )
 
 if !GIT_DETECTED!==n (
 	:: Install Git
