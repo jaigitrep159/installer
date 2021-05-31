@@ -1,5 +1,5 @@
 :: Wrapper: Offline Installer
-:: Author: octanuary#6596 (narutofan420)
+:: Author: octanuary#6596
 :: i mean benson made most of it since a lot of this was taken from start_wrapper.bat
 :: License: MIT
 title Wrapper: Offline Installer [Initializing...]
