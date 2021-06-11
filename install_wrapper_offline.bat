@@ -230,8 +230,8 @@ echo:>> wrapper-offline\utilities\config.bat
 echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> wrapper-offline\utilities\config.bat
 echo set PORT=4343>> wrapper-offline\utilities\config.bat
 echo:>> wrapper-offline\utilities\config.bat
-echo :: Enables configure_wrapper.bat. Useful for investigating things like problems with Node.js or http-server. Default: n>> wrapper-offline\utilities\config.bat
-echo set CONFIGURE=n>> wrapper-offline\utilities\config.bat
+echo :: Automatically restarts the NPM whenever it crashes. Default: y>> wrapper-offline\utilities\config.bat
+echo set AUTONODE=y>> wrapper-offline\utilities\config.bat
 echo:>> wrapper-offline\utilities\config.bat
 echo Resetting imported assets...
 pushd wrapper-offline\server\store\3a981f5cb2739137
@@ -243,7 +243,6 @@ echo ^<theme id="import" name="Imported Assets" cc_theme_id="import"^> >>theme.x
 echo 	^<char id="327068788" name="the benson apparition" cc_theme_id="family" thumbnail_url="char-default.png" copyable="Y"^> >>theme.xml
 echo 	^<tags^>family,every,copy,of,wrapper,offline,is,_free,software,but,is,also,_cat:personalized^</tags^> >>theme.xml
 echo 	^</char^> >>theme.xml
-echo:>>theme.xml
 echo ^</theme^> >>theme.xml
 popd
 call wrapper-offline\utilities\7za.exe a "wrapper-offline\server\store\3a981f5cb2739137\import\import.zip" "wrapper-offline\server\store\3a981f5cb2739137\import\theme.xml" >nul
