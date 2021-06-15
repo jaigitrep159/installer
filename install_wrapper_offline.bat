@@ -62,9 +62,9 @@ if !GIT_DETECTED!==n (
 		echo:
 		echo Press any key to restart this window and accept any admin prompts that pop up.
 		pause
-		echo Set UAC = CreateObject^("Shell.Application"^) > %tmp%\requestAdmin.vbs
+		echo Set UAC = CreateObject^("Shell.Application"^)>> %tmp%\requestAdmin.vbs
 		set params= %*
-		echo UAC.ShellExecute "cmd.exe", "/c ""%~s0"" %params:"=""%", "", "runas", 1 >> %tmp%\requestAdmin.vbs
+		echo UAC.ShellExecute "cmd.exe", "/c ""%~s0"" %params:"=""%", "", "runas", 1>> %tmp%\requestAdmin.vbs
 		start "" %tmp%\requestAdmin.vbs
 		exit /B
 		)
@@ -204,7 +204,8 @@ tasklist /FI "IMAGENAME eq powershell.exe" 2>NUL | find /I /N "powershell.exe">N
 if "%ERRORLEVEL%"=="0" (
 	echo:>nul
 ) else (
-	if exist "%~dp0..\wrapper-offline.zip" (
+	wmic datafile where Name="%~dp0..\wrapper-offline.zip"
+	if "%ERRORLEVEL%"=="0" (
 		set WOPATH=wrapper-offline\wrapper-offline
 		title Wrapper: Offline Installer [Extracting repository...]
 		echo Extracting the repository to the directory where the .ZIP was downloaded...
