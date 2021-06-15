@@ -195,71 +195,87 @@ goto manualreset
 
 :download13072
 cls
-title Wrapper: Offline Installer [Cloning repository...]
-pushd "%~dp0..\"
+title Wrapper: Offline Installer [Downloading repository...]
 echo Downloading the repository for 1.3.0 Build 72 through PowerShell...
 echo ^(NOTE: DO NOT CLOSE POWERSHELL OR IT WILL FAIL^!^)
 echo:
 start powershell -Command "Invoke-WebRequest https://github.com/Wrapper-Offline/wrapper-offline/archive/refs/tags/1.2.3-Final-Build.zip -OutFile %~dp0..\wrapper-offline.zip"
-if exist "%~dp0..\wrapper-offline.zip" (
-call 7za.exe e "%~dp0..\wrapper-offline.zip" -o"wrapper-offline"
+tasklist /FI "IMAGENAME eq powershell.exe" 2>NUL | find /I /N "powershell.exe">NUL
+if "%ERRORLEVEL%"=="0" (
+	echo:>nul
+) else (
+	if exist "%~dp0..\wrapper-offline.zip" (
+		set WOPATH=wrapper-offline\wrapper-offline
+		title Wrapper: Offline Installer [Extracting repository...]
+		echo Extracting the repository to the directory where the .ZIP was downloaded...
+		call 7za.exe e "%~dp0..\wrapper-offline.zip" -o"%dp0..\wrapper-offline"
+		goto manualreset
+	) else (
+		echo ERROR: Installation failed!
+		echo:
+		set /p CLOSEOUTOFTHE=Close out of the window, or press Enter to restart.
+		start "" "%0"
+		exit /B
+	)
+)
+
 
 :: I'm doing this to get around the .gitignore problem but this is only for first-time users
 :manualreset
 echo Resetting config.bat...
-del wrapper-offline\utilities\config.bat
-echo :: Wrapper: Offline Config>> wrapper-offline\utilities\config.bat
-echo :: This file is modified by settings.bat. It is not organized, but comments for each setting have been added.>> wrapper-offline\utilities\config.bat
-echo :: You should be using settings.bat, and not touching this. Offline relies on this file remaining consistent, and it's easy to mess that up.>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Opens this file in Notepad when run>> wrapper-offline\utilities\config.bat
-echo setlocal>> wrapper-offline\utilities\config.bat
-echo if "%%SUBSCRIPT%%"=="" ( start notepad.exe "%%CD%%\%%~nx0" ^& exit )>> wrapper-offline\utilities\config.bat
-echo endlocal>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Shows exactly Offline is doing, and never clears the screen. Useful for development and troubleshooting. Default: n>> wrapper-offline\utilities\config.bat
-echo set VERBOSEWRAPPER=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Won't check for dependencies (flash, node, etc) and goes straight to launching. Useful for speedy launching post-install. Default: n>> wrapper-offline\utilities\config.bat
-echo set SKIPCHECKDEPENDS=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Won't install dependencies, regardless of check results. Overridden by SKIPCHECKDEPENDS. Mostly useless, why did I add this again? Default: n>> wrapper-offline\utilities\config.bat
-echo set SKIPDEPENDINSTALL=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Opens Offline in an included copy of ungoogled-chromium. Allows continued use of Flash as modern browsers disable it. Default: y>> wrapper-offline\utilities\config.bat
-echo set INCLUDEDCHROMIUM=y>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Opens INCLUDEDCHROMIUM in headless mode. Looks pretty nice. Overrides CUSTOMBROWSER and BROWSER_TYPE. Default: y>> wrapper-offline\utilities\config.bat
-echo set APPCHROMIUM=y>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Opens Offline in a browser of the user's choice. Needs to be a path to a browser executable in quotes. Default: n>> wrapper-offline\utilities\config.bat
-echo set CUSTOMBROWSER=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Lets the launcher know what browser framework is being used. Mostly used by the Flash installer. Accepts "chrome", "firefox", and "n". Default: n>> wrapper-offline\utilities\config.bat
-echo set BROWSER_TYPE=chrome>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Runs through all of the scripts code, while never launching or installing anything. Useful for development. Default: n>> wrapper-offline\utilities\config.bat
-echo set DRYRUN=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Makes it so it uses the Cepstral website instead of VFProxy. Default: n>> wrapper-offline\utilities\config.bat
-echo set CEPSTRAL=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Opens Offline in an included copy of Basilisk, sourced from BlueMaxima's Flashpoint.>> wrapper-offline\utilities\config.bat
-echo :: Allows continued use of Flash as modern browsers disable it. Default: n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo set INCLUDEDBASILISK=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: n>> wrapper-offline\utilities\config.bat
-echo set DEVMODE=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> wrapper-offline\utilities\config.bat
-echo set PORT=4343>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
-echo :: Enables configure_wrapper.bat. Useful for investigating things like problems with Node.js or http-server. Default: n>> wrapper-offline\utilities\config.bat
-echo set CONFIGURE=n>> wrapper-offline\utilities\config.bat
-echo:>> wrapper-offline\utilities\config.bat
+del !wopath!\utilities\config.bat
+echo :: Wrapper: Offline Config>> !wopath!\utilities\config.bat
+echo :: This file is modified by settings.bat. It is not organized, but comments for each setting have been added.>> !wopath!\utilities\config.bat
+echo :: You should be using settings.bat, and not touching this. Offline relies on this file remaining consistent, and it's easy to mess that up.>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Opens this file in Notepad when run>> !wopath!\utilities\config.bat
+echo setlocal>> !wopath!\utilities\config.bat
+echo if "%%SUBSCRIPT%%"=="" ( start notepad.exe "%%CD%%\%%~nx0" ^& exit )>> !wopath!\utilities\config.bat
+echo endlocal>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Shows exactly Offline is doing, and never clears the screen. Useful for development and troubleshooting. Default: n>> !wopath!\utilities\config.bat
+echo set VERBOSEWRAPPER=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Won't check for dependencies (flash, node, etc) and goes straight to launching. Useful for speedy launching post-install. Default: n>> !wopath!\utilities\config.bat
+echo set SKIPCHECKDEPENDS=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Won't install dependencies, regardless of check results. Overridden by SKIPCHECKDEPENDS. Mostly useless, why did I add this again? Default: n>> !wopath!\utilities\config.bat
+echo set SKIPDEPENDINSTALL=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Opens Offline in an included copy of ungoogled-chromium. Allows continued use of Flash as modern browsers disable it. Default: y>> !wopath!\utilities\config.bat
+echo set INCLUDEDCHROMIUM=y>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Opens INCLUDEDCHROMIUM in headless mode. Looks pretty nice. Overrides CUSTOMBROWSER and BROWSER_TYPE. Default: y>> !wopath!\utilities\config.bat
+echo set APPCHROMIUM=y>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Opens Offline in a browser of the user's choice. Needs to be a path to a browser executable in quotes. Default: n>> !wopath!\utilities\config.bat
+echo set CUSTOMBROWSER=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Lets the launcher know what browser framework is being used. Mostly used by the Flash installer. Accepts "chrome", "firefox", and "n". Default: n>> !wopath!\utilities\config.bat
+echo set BROWSER_TYPE=chrome>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Runs through all of the scripts code, while never launching or installing anything. Useful for development. Default: n>> !wopath!\utilities\config.bat
+echo set DRYRUN=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Makes it so it uses the Cepstral website instead of VFProxy. Default: n>> !wopath!\utilities\config.bat
+echo set CEPSTRAL=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Opens Offline in an included copy of Basilisk, sourced from BlueMaxima's Flashpoint.>> !wopath!\utilities\config.bat
+echo :: Allows continued use of Flash as modern browsers disable it. Default: n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo set INCLUDEDBASILISK=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: n>> !wopath!\utilities\config.bat
+echo set DEVMODE=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> !wopath!\utilities\config.bat
+echo set PORT=4343>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
+echo :: Enables configure_wrapper.bat. Useful for investigating things like problems with Node.js or http-server. Default: n>> !wopath!\utilities\config.bat
+echo set CONFIGURE=n>> !wopath!\utilities\config.bat
+echo:>> !wopath!\utilities\config.bat
 echo Resetting imported assets...
-pushd wrapper-offline\server\store\3a981f5cb2739137
+pushd !wopath!\server\store\3a981f5cb2739137
 rd /q /s import
 md import
 pushd import
@@ -271,15 +287,15 @@ echo 	^</char^> >>theme.xml
 echo:>>theme.xml
 echo ^</theme^> >>theme.xml
 popd
-call wrapper-offline\utilities\7za.exe a "wrapper-offline\server\store\3a981f5cb2739137\import\import.zip" "wrapper-offline\server\store\3a981f5cb2739137\import\theme.xml" >nul
-del /q /s wrapper-offline\utilities\import_these
-md wrapper-offline\utilities\import_these
-copy "wrapper-offline\server\store\3a981f5cb2739137\import\theme.xml" "wrapper-offline\wrapper\_THEMES\import.xml" /y
+call !wopath!\utilities\7za.exe a "!wopath!\server\store\3a981f5cb2739137\import\import.zip" "!wopath!\server\store\3a981f5cb2739137\import\theme.xml" >nul
+del /q /s !wopath!\utilities\import_these
+md !wopath!\utilities\import_these
+copy "!wopath!\server\store\3a981f5cb2739137\import\theme.xml" "!wopath!\wrapper\_THEMES\import.xml" /y
 echo Moving "disclaimer accepted" text file from temporary system directory to utilities\checks folder...
-copy "%tmp%\WOdisclaimer.txt" "wrapper-offline\utilities\checks\disclaimer.txt" /y
+copy "%tmp%\WOdisclaimer.txt" "!wopath!\utilities\checks\disclaimer.txt" /y
 del "%tmp%\WOdisclaimer.txt"
 echo Creating quick shortcut in directory where Wrapper was cloned using NirCMD...
-if exist "wrapper-offline\Wrapper Offline.lnk" ( del "wrapper-offline\Wrapper Offline.lnk" )
+if exist "!wopath!\Wrapper Offline.lnk" ( del "!wopath!\Wrapper Offline.lnk" )
 echo:
 pushd wrapper-offline
 call utilities\nircmd\nircmd.exe shortcut "%windir%\System32\cmd.exe /c START '' 'start_wrapper.bat'" "%CD%" "Wrapper Offline" "" "%CD%\wrapper\favicon.ico" "" "" "%CD%\"
@@ -308,7 +324,7 @@ if /i not !ERRORLEVEL!==0 (
 	pause
 ) else (
 	pause
-	start "" "%~dp0..\wrapper-offline\start_wrapper.bat"
+	start "" "%~dp0..\!wopath!\start_wrapper.bat"
 	echo:
 	echo The rest of the installer has been launched.
 	echo:
