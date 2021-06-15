@@ -196,7 +196,7 @@ goto manualreset
 :download12372
 cls
 title Wrapper: Offline Installer [Downloading repository...]
-echo Downloading the repository for 1.3.0 Build 72 through PowerShell...
+echo Downloading the repository for 1.2.3 Build 72 through PowerShell...
 echo ^(NOTE: DO NOT CLOSE POWERSHELL OR IT WILL FAIL^!^)
 echo:
 start powershell -Command "Invoke-WebRequest https://github.com/Wrapper-Offline/wrapper-offline/archive/refs/tags/1.2.3-Final-Build.zip -OutFile %~dp0..\wrapper-offline.zip"
