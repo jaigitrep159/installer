@@ -156,7 +156,7 @@ echo:
 
 set /p CHOICE=Choice:
 if "!choice!"=="0" goto exit
-if "!choice!"=="1" goto download
+if "!choice!"=="1" goto downloadoptions
 :: funni options
 if "!choice!"=="43" echo OH MY GOD. FOURTY THREE CHARS. NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO & goto wrapperidle
 if "!choice!"=="69" echo nice & goto wrapperidle
@@ -173,14 +173,39 @@ if /i "!choice!"=="spark" echo WHY DID SOMEONE FUCK UP THE LAUNCHER? & goto wrap
 if /i "!choice!"=="l33t" echo nice l33t video & goto wrapperidle
 echo Time to choose. && goto wrapperidle
 
-:download
+:downloadoptions
+cls
+echo Press 1 if you would like to install the latest build of 1.3.x. ^(Default^)
+echo Press 2 if you would like to install 1.3.0 Build 72. ^(LTS, no updates^)
+echo:
+:dlchoiceretry
+set /p DLCHOICE=Choice: 
+if "!dlchoice!"=="1" ( goto download13x )
+if "!dlchoice!"=="2" ( goto download13072 )
+
+:download13x
 cls
 title Wrapper: Offline Installer [Cloning repository...]
 pushd "%~dp0..\"
 echo Cloning the latest version of the repository from GitHub...
 echo:
 call git clone https://github.com/Wrapper-Offline/wrapper-offline.git --recursive
+set WOPATH=wrapper-offline
+goto manualreset
+
+:download13072
+cls
+title Wrapper: Offline Installer [Cloning repository...]
+pushd "%~dp0..\"
+echo Downloading the repository for 1.3.0 Build 72 through PowerShell...
+echo ^(NOTE: DO NOT CLOSE POWERSHELL OR IT WILL FAIL^!^)
+echo:
+start powershell -Command "Invoke-WebRequest https://github.com/Wrapper-Offline/wrapper-offline/archive/refs/tags/1.2.3-Final-Build.zip -OutFile %~dp0..\wrapper-offline.zip"
+if exist "%~dp0..\wrapper-offline.zip" (
+call 7za.exe e "%~dp0..\wrapper-offline.zip" -o"wrapper-offline"
+
 :: I'm doing this to get around the .gitignore problem but this is only for first-time users
+:manualreset
 echo Resetting config.bat...
 del wrapper-offline\utilities\config.bat
 echo :: Wrapper: Offline Config>> wrapper-offline\utilities\config.bat
