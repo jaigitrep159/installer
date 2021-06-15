@@ -176,12 +176,12 @@ echo Time to choose. && goto wrapperidle
 :downloadoptions
 cls
 echo Press 1 if you would like to install the latest build of 1.3.x. ^(Default^)
-echo Press 2 if you would like to install 1.3.0 Build 72. ^(LTS, no updates^)
+echo Press 2 if you would like to install 1.2.3 Build 72. ^(LTS, no updates^)
 echo:
 :dlchoiceretry
 set /p DLCHOICE=Choice: 
 if "!dlchoice!"=="1" ( goto download13x )
-if "!dlchoice!"=="2" ( goto download13072 )
+if "!dlchoice!"=="2" ( goto download12372 )
 
 :download13x
 cls
@@ -193,7 +193,7 @@ call git clone https://github.com/Wrapper-Offline/wrapper-offline.git --recursiv
 set WOPATH=wrapper-offline
 goto manualreset
 
-:download13072
+:download12372
 cls
 title Wrapper: Offline Installer [Downloading repository...]
 echo Downloading the repository for 1.3.0 Build 72 through PowerShell...
