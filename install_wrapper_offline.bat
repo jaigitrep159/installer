@@ -210,6 +210,7 @@ if "%ERRORLEVEL%"=="0" (
 		title Wrapper: Offline Installer [Extracting repository...]
 		echo Extracting the repository to the directory where the .ZIP was downloaded...
 		call 7za.exe e "%~dp0..\wrapper-offline.zip" -o"%dp0..\wrapper-offline"
+		pushd "%~dp0..\"
 		goto manualreset
 	) else (
 		echo ERROR: Installation failed!
